@@ -28,35 +28,63 @@ class SSOClient {
 		$this->session_key = 'SSO-Data-'.sha1($this->url.$this->private_key);
 	}
 
+	/**
+	 * Helper function that wraps a simple usage of this client.
+	 * Assumes that you either want to login, or are on the postback.
+	 */
 	public function DoSSO(){
-		session_start();
-
 		// No token, and no post data.
-		if(!isset($_POST[self::POST_KEY])){
-			$this->redirectToLoginPage();
+		if(!$this->IsPostback()){
+			$this->RedirectToLoginPage();
 			return null;
 		}
 
+		$SSO_Data = $this->HandlePostback();
+		return $SSO_Data;
+	}
+
+	public function IsPostback(){
+		return isset($_POST[self::POST_KEY]);
+	}
+
+	public function HandlePostback(){
 		// SSO data is set, we may have a valid postback
 		$SSO_Data = base64_decode($_POST[self::POST_KEY]);
 		$SSO_Data = Crypto::decryptPrivate($SSO_Data, $this->private_key);
 		$SSO_Data = json_decode($SSO_Data);
 		if($SSO_Data == NULL) throw new SSONoTokenError("No valid data sent");
 
-		$_SESSION[$this->session_key] = $SSO_Data;
+		$this->saveData($SSO_Data);
 		return $SSO_Data;
 	}
 
-	private function redirectToLoginPage(){
+	public function RedirectToLoginPage(){
 		$currentURL = 'http'.(empty($_SERVER['HTTPS'])?'':'s').'://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];
 		header("Location: " . $this->url . "?clientURL=" . urlencode($currentURL) . "&clientKey=" . urlencode(Crypto::StripKeyHeaders($this->public_key)));
 		exit();
 	}
 
+	/**
+	 * If you'd like to use a different mechanism to save the data returned
+	 * create a derived class and override this, clearData & GetData.
+	 */
+	protected function saveData($SSO_Data){
+		session_start();
+		$_SESSION[$this->session_key] = $SSO_Data;
+	}
+
+	/**
+	 * If you'd like to use a different mechanism to save the data returned
+	 * create a derived class and override this, saveData & GetData.
+	 */
+	protected function clearData(){
+		unset($_SESSION[$this->session_key]);
+	}
+
 	public function GetData(){ return $_SESSION[$this->session_key]; }
 
 	public function Logout(){
-		unset($_SESSION[$this->session_key]);
+		$this->clearData();
 		header('Location: ' . $this->url . '/control.php/auth/deauthenticate');
 		exit();
 	}
