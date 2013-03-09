@@ -34,7 +34,6 @@ if(@$_GET["clientKey"] == ""){
 		<input type="text" name="username" value="username" id="username">
 		<input type="password" name="password" id="password">
 		<button type="submit" id="login-button">Log In</button>
-		<br />
 <?php }	// end if clientKey ?>
 		<!--<a href="https://www.studentrobotics.org/forgotpassword/">&raquo; Forgotten password</a> -->
 	</form>
