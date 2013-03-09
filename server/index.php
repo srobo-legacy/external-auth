@@ -17,7 +17,13 @@
 	<form id="login-box" method="POST" action="sso.php">
 		<strong>Student Robotics Authentication</strong>
 <?php
-if(@$_GET["clientKey"] == ""){
+if(isset($_GET["logout"])){
+?>
+		<p>
+			<em id="login-feedback">You have successfully logged out.</em>
+		</p>
+<?php
+}elseif(@$_GET["clientKey"] == ""){
 ?>
 		<em id="login-feedback">Unable to identify source of login request.</em>
 		<br />

@@ -32,7 +32,8 @@ switch($_SERVER["PATH_INFO"]){
 		break;
 	case "/auth/deauthenticate":
 		session_destroy();
-		header("Location: " . $AuthClient->GetSetting("LoggedOutURL"));
+		$logoutURL = empty($_REQUEST['logoutURL']) ? '../../?logout' : $_REQUEST['logoutURL'];
+		header("Location: " . $logoutURL);
 }
 
 echo json_encode($response);
