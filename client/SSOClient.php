@@ -57,8 +57,14 @@ class SSOClient {
 
 	public function Logout(){
 		unset($_SESSION[$this->session_key]);
-		header('Location: ' . $this->url . '/control.php/auth/deauthenticate');
+		$uri = $this->GetLogoutUri();
+		header('Location: ' . $uri);
 		exit();
+	}
+
+	public function GetLogoutUri(){
+		$uri = $this->url . '/control.php/auth/deauthenticate';
+		return $uri;
 	}
 
 }
