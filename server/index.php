@@ -28,7 +28,16 @@ if(@$_GET["clientKey"] == ""){
 <?php
 }else{	// if clientKey
 ?>
-		<em id="login-feedback">Use your IDE username and password to log in</em>
+		<em id="login-feedback">
+<?php
+	$appName = strip_tags(@$_GET['clientName']);
+	if(!empty($appName)){
+		echo "You must be logged in to use the $appName";
+	}else{
+		echo 'Use your Student Robotics username and password to log in';
+	}
+?>
+		</em>
 		<input type="hidden" name="clientURL" value="<?php echo $_GET["clientURL"]; ?>" id="clientURL">
 		<input type="hidden" name="clientKey" value="<?php echo $_GET["clientKey"]; ?>" id="clientKey">
 		<input type="text" name="username" value="username" id="username">
