@@ -13,7 +13,9 @@ $jsonInput = fgets($handle);
 $decoded = json_decode($jsonInput,true);
 fclose($handle);
 
-$_POST = array_merge($_POST,$decoded);
+if (!empty($decoded) && is_array($decoded)){
+	$_POST = array_merge($_POST,$decoded);
+}
 
 $AuthClient = new AuthClient();
 $AuthClient->PutSetting("ClientURL", $_POST["clientURL"]);
