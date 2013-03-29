@@ -1,7 +1,7 @@
 <?php
 
-require_once("lib/ConfigManager.php");
 session_start();
+require_once("lib/ConfigManager.php");
 
 if(!isset($_GET["SSO_Username"])){
 	// user not logged in yet
@@ -34,7 +34,6 @@ try{
 <body>
 	<div id="top">
 		<ul id="topleft">
-			<li><a href="control.php/auth/deauthenticate" id="logout-button">Logout</a></li>
 			<li id="teaminfo">Welcome, <?php echo $USER_DISPLAY; ?></li>
 		</ul>
 		<div id="static-box"><img src="web/images/static.png" alt="logo"></div>

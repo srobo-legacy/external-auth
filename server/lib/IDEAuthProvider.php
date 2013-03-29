@@ -1,5 +1,10 @@
 <?php
 
+// ensure there's a session - we need it for caching the lookups.
+if (session_status() != PHP_SESSION_ACTIVE){
+	session_start();
+}
+
 require_once("lib/AuthProvider.php");
 
 #

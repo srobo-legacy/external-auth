@@ -2,8 +2,6 @@
 
 require_once("lib/ConfigManager.php");
 
-session_start();
-
 header("Cache-control: no-cache");
 header("Pragma: no-cache");
 header("Content-type: application/json");
@@ -28,10 +26,6 @@ switch($_SERVER["PATH_INFO"]){
 			$response["status"] = false;
 			$response["error"] = array(1, "Invalid username or password");
 		}
-		break;
-	case "/auth/deauthenticate":
-		session_destroy();
-		header("Location: " . $AuthClient->GetSetting("LoggedOutURL"));
 		break;
 	case "/keys/get_public":
 		echo ConfigManager::GetPublicKey();
