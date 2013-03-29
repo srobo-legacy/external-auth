@@ -21,12 +21,12 @@ if(!isset($_SESSION["SSO_Error"])){
 <body>
 	<div id="top">
 		<ul id="topleft">
-			<li id="teaminfo">Error</li>
+			<li id="teaminfo">This is not the page you were looking for</li>
 		</ul>
 		<div id="static-box"><img src="web/images/static.png" alt="logo"></div>
 	</div>
 	<div id='page'>
-		<h2>Single-sign-on error</h2>
+		<h2>Login error</h2>
 		<p>
 			Unfortunately, an error occurred processing the request.  Details of the error are below:
 			<pre class='code'><?php
